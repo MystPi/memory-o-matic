@@ -12,4 +12,5 @@ export default defineConfig({
     sourcemap: true,
   },
   plugins: [gleam()],
+  base: '/memory-o-matic/',
 });
