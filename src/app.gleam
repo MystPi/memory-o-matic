@@ -127,7 +127,7 @@ fn light_row(which: Int, number: Int) -> Element {
   let base_style =
     "w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
 
-  let blank = div([class(base_style <> " bg-stone-700 animate-pulse")], [])
+  let blank = div([class(base_style <> " bg-stone-800")], [])
 
   let color = div([class(base_style <> light_bg(which))], [])
 
