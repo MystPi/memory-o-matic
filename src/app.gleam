@@ -50,9 +50,6 @@ fn update(state: Model, msg: Msg) -> Model {
 // VIEW ------------------------------------------------------------------------
 
 fn render(state: Model) -> Element {
-  let light_style =
-    "flex-1 aspect-square rounded-full bg-stone-500 text-2xl flex items-center justify-center font-bold text-white transition hover:bg-stone-400 hover:scale-105 active:scale-95"
-
   let button_style = "bg-stone-700 px-4 py-1 rounded text-white"
 
   let divider = hr([class("border-stone-800")])
@@ -77,10 +74,11 @@ fn render(state: Model) -> Element {
   div(
     [
       class(
-        "mx-auto max-w-xl px-4 pt-16 pb-4 text-stone-400 space-y-3 relative",
+        "mx-auto max-w-xl px-4 pt-16 pb-8 text-stone-400 flex flex-col gap-3 relative",
       ),
     ],
     [
+      div([class("h-8 fixed bottom-0 left-0 right-0 bg-gradient-to-t from-stone-950 z-10")], []),
       p([class("font-display text-sm italic")], [text("It's the...")]),
       div(
         [class("flex justify-between")],
@@ -89,7 +87,11 @@ fn render(state: Model) -> Element {
             [class("text-4xl font-display text-amber-500")],
             [text("Memory O' Matic!")],
           ),
-          img([class("h-10 hidden sm:block"), src("./aj.png"), alt("Animal Jam Logo")]),
+          img([
+            class("h-10 hidden sm:block"),
+            src("./aj.png"),
+            alt("Animal Jam Logo"),
+          ]),
         ],
       ),
       p(
@@ -103,34 +105,47 @@ fn render(state: Model) -> Element {
       divider,
       div(
         [class("flex gap-3")],
-        [
-          button([class(light_style), on_click(Pressed(1))], [text("1")]),
-          button([class(light_style), on_click(Pressed(2))], [text("2")]),
-          button([class(light_style), on_click(Pressed(3))], [text("3")]),
-          button([class(light_style), on_click(Pressed(4))], [text("4")]),
-        ],
+        [light_button(1), light_button(2), light_button(3), light_button(4)],
       ),
       divider,
-      ..log
+      ..log,
     ],
+  )
+}
+
+fn light_button(which: Int) -> Element {
+  let style =
+    "flex-1 aspect-square rounded-full text-2xl flex items-center justify-center font-bold text-white transition hover:scale-105 active:scale-95"
+
+  button(
+    [class(style <> light_bg(which)), on_click(Pressed(which))],
+    [text(int.to_string(which))],
   )
 }
 
 fn light_row(which: Int, number: Int) -> Element {
   let base_style =
-    "w-10 h-10 rounded-full flex items-center justify-center text-stone-900 font-bold"
+    "w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
 
-  let empty = div([class(base_style <> " bg-stone-700 animate-pulse")], [])
+  let blank = div([class(base_style <> " bg-stone-700 animate-pulse")], [])
 
-  let full =
-    div([class(base_style <> " bg-amber-500")], [text(int.to_string(which))])
+  let color = div([class(base_style <> light_bg(which))], [])
 
   let row = case which {
-    1 -> [full, empty, empty, empty]
-    2 -> [empty, full, empty, empty]
-    3 -> [empty, empty, full, empty]
-    4 -> [empty, empty, empty, full]
+    1 -> [color, blank, blank, blank]
+    2 -> [blank, color, blank, blank]
+    3 -> [blank, blank, color, blank]
+    4 -> [blank, blank, blank, color]
   }
 
   div([class("flex gap-3 items-center")], [text(int.to_string(number)), ..row])
+}
+
+fn light_bg(which: Int) -> String {
+  case which {
+    1 -> " bg-green-700 hover:bg-green-600"
+    2 -> " bg-red-700 hover:bg-red-600"
+    3 -> " bg-yellow-700 hover:bg-yellow-600"
+    4 -> " bg-fuchsia-700 hover:bg-fuchsia-600"
+  }
 }
