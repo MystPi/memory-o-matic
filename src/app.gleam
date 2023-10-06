@@ -98,7 +98,7 @@ fn render(state: Model) -> Element {
         [class("font-display text-justify")],
         [
           text(
-            "Having trouble remebering light sequences? You have come to the right place! Enter the squence into the Memory O' Matic as it appears in-game, then use the log to recall it!",
+            "Having trouble remembering light sequences? You have come to the right place! Enter the squence into the Memory O' Matic as it appears in-game, then use the log to recall it!",
           ),
         ],
       ),
