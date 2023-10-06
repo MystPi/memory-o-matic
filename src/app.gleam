@@ -89,7 +89,7 @@ fn render(state: Model) -> Element {
             [class("text-4xl font-display text-amber-500")],
             [text("Memory O' Matic!")],
           ),
-          img([class("h-10"), src("/aj.png"), alt("Animal Jam Logo")]),
+          img([class("h-10"), src("./aj.png"), alt("Animal Jam Logo")]),
         ],
       ),
       p(
