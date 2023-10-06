@@ -1,10 +1,10 @@
 import gleam/int
 import gleam/list
 import lustre
-import lustre/element/html.{button, div, h1, hr, p}
+import lustre/element/html.{button, div, h1, hr, img, p}
 import lustre/element.{text}
 import lustre/event.{on_click}
-import lustre/attribute.{class}
+import lustre/attribute.{alt, class, src}
 
 // MAIN ------------------------------------------------------------------------
 
@@ -51,11 +51,11 @@ fn update(state: Model, msg: Msg) -> Model {
 
 fn render(state: Model) -> Element {
   let light_style =
-    "flex-1 aspect-square rounded-full bg-slate-500 text-2xl flex items-center justify-center font-bold text-white transition hover:bg-slate-400 hover:scale-105 active:scale-95"
+    "flex-1 aspect-square rounded-full bg-stone-500 text-2xl flex items-center justify-center font-bold text-white transition hover:bg-stone-400 hover:scale-105 active:scale-95"
 
-  let button_style = "bg-slate-700 px-4 py-1 rounded text-white"
+  let button_style = "bg-stone-700 px-4 py-1 rounded text-white"
 
-  let divider = hr([class("border-slate-800")])
+  let divider = hr([class("border-stone-800")])
 
   let log = case state {
     [] -> [
@@ -75,12 +75,22 @@ fn render(state: Model) -> Element {
   }
 
   div(
-    [class("mx-auto max-w-xl px-4 pt-16 pb-4 text-slate-400 space-y-3")],
+    [
+      class(
+        "mx-auto max-w-xl px-4 pt-16 pb-4 text-stone-400 space-y-3 relative",
+      ),
+    ],
     [
       p([class("font-display text-sm italic")], [text("It's the...")]),
-      h1(
-        [class("text-4xl font-display text-green-500")],
-        [text("Memory O' Matic!")],
+      div(
+        [class("flex justify-between")],
+        [
+          h1(
+            [class("text-4xl font-display text-amber-500")],
+            [text("Memory O' Matic!")],
+          ),
+          img([class("h-10"), src("/aj.png"), alt("Animal Jam Logo")]),
+        ],
       ),
       p(
         [class("font-display text-justify")],
@@ -108,12 +118,12 @@ fn render(state: Model) -> Element {
 
 fn light_row(which: Int, number: Int) -> Element {
   let base_style =
-    "w-10 h-10 rounded-full flex items-center justify-center text-slate-900 font-bold"
+    "w-10 h-10 rounded-full flex items-center justify-center text-stone-900 font-bold"
 
-  let empty = div([class(base_style <> " bg-slate-700 animate-pulse")], [])
+  let empty = div([class(base_style <> " bg-stone-700 animate-pulse")], [])
 
   let full =
-    div([class(base_style <> " bg-green-500")], [text(int.to_string(which))])
+    div([class(base_style <> " bg-amber-500")], [text(int.to_string(which))])
 
   let row = case which {
     1 -> [full, empty, empty, empty]
