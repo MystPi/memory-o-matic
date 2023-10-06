@@ -84,7 +84,7 @@ fn render(state: Model) -> Element {
         [class("flex justify-between")],
         [
           h1(
-            [class("text-4xl font-display text-amber-500")],
+            [class("text-4xl font-display text-transparent bg-clip-text bg-gradient-to-tr from-amber-700 to-amber-400")],
             [text("Memory O' Matic!")],
           ),
           img([
