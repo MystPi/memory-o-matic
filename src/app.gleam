@@ -20,11 +20,12 @@ type Element =
 
 // MODEL -----------------------------------------------------------------------
 
-type Model =
-  List(Element)
+type Model {
+  Model(log: List(Element), show_header: Bool)
+}
 
 fn init() -> Model {
-  []
+  Model(log: [], show_header: True)
 }
 
 // UPDATE ----------------------------------------------------------------------
@@ -36,13 +37,16 @@ type Msg {
 }
 
 fn update(state: Model, msg: Msg) -> Model {
+  let Model(log, show_header) = state
+
   case msg {
-    Pressed(light) -> [light_row(light, list.length(state) + 1), ..state]
-    Reset -> []
+    Pressed(light) ->
+      Model([light_row(light, list.length(log) + 1), ..log], False)
+    Reset -> Model([], show_header)
     Undo ->
-      case state {
-        [_, ..rest] -> rest
-        _ -> []
+      case log {
+        [_, ..rest] -> Model(rest, show_header)
+        _ -> state
       }
   }
 }
@@ -50,41 +54,35 @@ fn update(state: Model, msg: Msg) -> Model {
 // VIEW ------------------------------------------------------------------------
 
 fn render(state: Model) -> Element {
+  let Model(log, show_header) = state
+
   let button_style = "bg-stone-700 px-4 py-1 rounded text-white"
 
   let divider = hr([class("border-stone-800")])
 
-  let log = case state {
-    [] -> [
-      p([class("text-center italic")], [text("Start loggin' those sequences!")]),
-    ]
-    _ -> [
-      div(
-        [class("flex gap-3")],
-        [
-          button([class(button_style), on_click(Reset)], [text("Reset")]),
-          button([class(button_style), on_click(Undo)], [text("Undo")]),
-        ],
-      ),
-      divider,
-      div([class("space-y-3")], list.reverse(state)),
-    ]
-  }
+  let scroll_indicator = [
+    div(
+      [
+        class(
+          "h-8 fixed bottom-0 left-0 right-0 bg-gradient-to-t from-stone-950 z-10",
+        ),
+      ],
+      [],
+    ),
+  ]
 
-  div(
-    [
-      class(
-        "mx-auto max-w-xl px-4 pt-16 pb-8 text-stone-400 flex flex-col gap-3 relative",
-      ),
-    ],
-    [
-      div([class("h-8 fixed bottom-0 left-0 right-0 bg-gradient-to-t from-stone-950 z-10")], []),
+  let header = case show_header {
+    True -> [
       p([class("font-display text-sm italic")], [text("It's the...")]),
       div(
         [class("flex justify-between")],
         [
           h1(
-            [class("text-4xl font-display text-transparent bg-clip-text bg-gradient-to-tr from-amber-700 to-amber-400")],
+            [
+              class(
+                "text-4xl font-display text-transparent bg-clip-text bg-gradient-to-tr from-amber-700 to-amber-400",
+              ),
+            ],
             [text("Memory O' Matic!")],
           ),
           img([
@@ -103,13 +101,45 @@ fn render(state: Model) -> Element {
         ],
       ),
       divider,
+    ]
+    False -> []
+  }
+
+  let light_buttons = [
+    div(
+      [class("flex gap-3")],
+      [light_button(1), light_button(2), light_button(3), light_button(4)],
+    ),
+    divider,
+  ]
+
+  let log = case log {
+    [] -> [
+      p([class("italic text-center")], [text("Start loggin' those sequences!")]),
+    ]
+    _ -> [
       div(
         [class("flex gap-3")],
-        [light_button(1), light_button(2), light_button(3), light_button(4)],
+        [
+          button([class(button_style), on_click(Reset)], [text("Reset")]),
+          button([class(button_style), on_click(Undo)], [text("Undo")]),
+        ],
       ),
       divider,
-      ..log,
+      div([class("space-y-3")], list.reverse(log)),
+    ]
+  }
+
+  div(
+    [
+      class(
+        "mx-auto max-w-xl px-4 py-8 sm:pt-16 text-stone-400 flex flex-col gap-3 relative",
+      ),
     ],
+    scroll_indicator
+    |> list.append(header)
+    |> list.append(light_buttons)
+    |> list.append(log),
   )
 }
 
