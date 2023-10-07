@@ -145,7 +145,7 @@ fn render(state: Model) -> Element {
 
 fn light_button(which: Int) -> Element {
   let style =
-    "flex-1 aspect-square rounded-full text-2xl flex items-center justify-center font-bold text-white transition hover:scale-105 active:scale-95"
+    "flex-1 aspect-square rounded-full text-2xl flex items-center justify-center font-bold text-white touch-manipulation transition hover:scale-105 active:scale-95"
 
   button(
     [class(style <> light_bg(which)), on_click(Pressed(which))],
