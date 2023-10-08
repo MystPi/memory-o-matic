@@ -10,7 +10,7 @@ import lustre/attribute.{alt, class, src}
 
 pub fn main() {
   let app = lustre.simple(init, update, render)
-  let assert Ok(_) = lustre.start(app, "div")
+  let assert Ok(_) = lustre.start(app, "#app")
 
   Nil
 }
