@@ -73,6 +73,31 @@ fn render(state: Model) -> Element {
 
   let header = case show_header {
     True -> [
+      div(
+        [
+          class(
+            "bg-gradient-to-b from-stone-900 to-stone-950 rounded font-display text-stone-500 border border-stone-800 p-4 flex items-center gap-3 mb-3",
+          ),
+        ],
+        [
+          div(
+            [
+              class(
+                "w-10 h-10 rounded-full bg-stone-800 text-stone-500 font-mono flex items-center justify-center flex-shrink-0 font-bold",
+              ),
+            ],
+            [text("!")],
+          ),
+          p(
+            [],
+            [
+              text(
+                "'Spooktober' 2023 has come to a close, and the Light Squencer is no longer available in game.",
+              ),
+            ],
+          ),
+        ],
+      ),
       p([class("font-display text-sm italic")], [text("It's the...")]),
       div(
         [class("flex justify-between")],
