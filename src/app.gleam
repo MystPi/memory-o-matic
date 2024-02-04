@@ -88,53 +88,46 @@ fn render(state: Model) -> Element {
             ],
             [text("!")],
           ),
-          p(
-            [],
-            [
-              text(
-                "'Spooktober' 2023 has come to a close, and the Light Squencer is no longer available in game.",
-              ),
-            ],
-          ),
-        ],
-      ),
-      p([class("font-display text-sm italic")], [text("It's the...")]),
-      div(
-        [class("flex justify-between")],
-        [
-          h1(
-            [
-              class(
-                "text-4xl font-display text-transparent bg-clip-text bg-gradient-to-tr from-amber-700 to-amber-400",
-              ),
-            ],
-            [text("Memory O' Matic!")],
-          ),
-          img([
-            class("h-10 hidden sm:block"),
-            src("./aj.png"),
-            alt("Animal Jam Logo"),
+          p([], [
+            text(
+              "'Spooktober' 2023 has come to a close, and the Light Squencer is no longer available in game.",
+            ),
           ]),
         ],
       ),
-      p(
-        [class("font-display text-justify")],
-        [
-          text(
-            "Having trouble remembering light sequences? You have come to the right place! Enter the squence into the Memory O' Matic as it appears in-game, then use the log to recall it!",
-          ),
-        ],
-      ),
+      p([class("font-display text-sm italic")], [text("It's the...")]),
+      div([class("flex justify-between")], [
+        h1(
+          [
+            class(
+              "text-4xl font-display text-transparent bg-clip-text bg-gradient-to-tr from-amber-700 to-amber-400",
+            ),
+          ],
+          [text("Memory O' Matic!")],
+        ),
+        img([
+          class("h-10 hidden sm:block"),
+          src("./aj.png"),
+          alt("Animal Jam Logo"),
+        ]),
+      ]),
+      p([class("font-display text-justify")], [
+        text(
+          "Having trouble remembering light sequences? You have come to the right place! Enter the squence into the Memory O' Matic as it appears in-game, then use the log to recall it!",
+        ),
+      ]),
       divider,
     ]
     False -> []
   }
 
   let light_buttons = [
-    div(
-      [class("flex gap-3")],
-      [light_button(1), light_button(2), light_button(3), light_button(4)],
-    ),
+    div([class("flex gap-3")], [
+      light_button(1),
+      light_button(2),
+      light_button(3),
+      light_button(4),
+    ]),
     divider,
   ]
 
@@ -143,13 +136,10 @@ fn render(state: Model) -> Element {
       p([class("italic text-center")], [text("Start loggin' those sequences!")]),
     ]
     _ -> [
-      div(
-        [class("flex gap-3")],
-        [
-          button([class(button_style), on_click(Reset)], [text("Reset")]),
-          button([class(button_style), on_click(Undo)], [text("Undo")]),
-        ],
-      ),
+      div([class("flex gap-3")], [
+        button([class(button_style), on_click(Reset)], [text("Reset")]),
+        button([class(button_style), on_click(Undo)], [text("Undo")]),
+      ]),
       divider,
       div([class("space-y-3")], list.reverse(log)),
     ]
@@ -172,10 +162,9 @@ fn light_button(which: Int) -> Element {
   let style =
     "flex-1 aspect-square rounded-full text-2xl flex items-center justify-center font-bold text-white touch-manipulation transition hover:scale-105 active:scale-95"
 
-  button(
-    [class(style <> light_bg(which)), on_click(Pressed(which))],
-    [text(int.to_string(which))],
-  )
+  button([class(style <> light_bg(which)), on_click(Pressed(which))], [
+    text(int.to_string(which)),
+  ])
 }
 
 fn light_row(which: Int, number: Int) -> Element {
